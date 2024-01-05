@@ -1,0 +1,13 @@
+package view
+
+import (
+    "github.com/axseem/blomple/database"
+)
+
+templ Article(article database.Article){
+    <a href="/">back</a>
+    <h1>{article.Title}</h1>
+    <p>
+        {article.Body}
+    </p>
+}

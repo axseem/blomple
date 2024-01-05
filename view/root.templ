@@ -1,0 +1,14 @@
+package view
+
+import (
+    "github.com/axseem/blomple/database"
+    "fmt"
+)
+
+templ Root(articles []database.Article){
+    for _, a := range articles {
+        <a href={templ.URL("/article/" + fmt.Sprint(a.ID))}>
+            <h1>{a.Title}</h1>
+        </a>
+    }
+}
