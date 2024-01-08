@@ -10,7 +10,7 @@ import (
 )
 
 const createArticle = `-- name: CreateArticle :exec
-INSERT INTO articles (
+INSERT INTO article (
   title, body
 ) VALUES (
   ?, ?
@@ -18,8 +18,8 @@ INSERT INTO articles (
 `
 
 type CreateArticleParams struct {
-	Title string `json:"title"`
-	Body  string `json:"body"`
+	Title string
+	Body  string
 }
 
 func (q *Queries) CreateArticle(ctx context.Context, arg CreateArticleParams) error {
@@ -28,7 +28,7 @@ func (q *Queries) CreateArticle(ctx context.Context, arg CreateArticleParams) er
 }
 
 const deleteArticle = `-- name: DeleteArticle :exec
-DELETE FROM articles
+DELETE FROM article
 WHERE id = ?
 `
 
@@ -38,7 +38,7 @@ func (q *Queries) DeleteArticle(ctx context.Context, id int64) error {
 }
 
 const getArticle = `-- name: GetArticle :one
-SELECT id, title, body, created_at, updated_at FROM articles
+SELECT id, title, body, created_at, updated_at FROM article
 WHERE id = ? LIMIT 1
 `
 
@@ -56,7 +56,7 @@ func (q *Queries) GetArticle(ctx context.Context, id int64) (Article, error) {
 }
 
 const listArticles = `-- name: ListArticles :many
-SELECT id, title, body, created_at, updated_at FROM articles
+SELECT id, title, body, created_at, updated_at FROM article
 ORDER BY created_at DESC
 `
 
@@ -90,15 +90,15 @@ func (q *Queries) ListArticles(ctx context.Context) ([]Article, error) {
 }
 
 const updateArticle = `-- name: UpdateArticle :exec
-UPDATE articles
+UPDATE article
 set title = ?, body = ?
 WHERE id = ?
 `
 
 type UpdateArticleParams struct {
-	Title string `json:"title"`
-	Body  string `json:"body"`
-	ID    int64  `json:"id"`
+	Title string
+	Body  string
+	ID    int64
 }
 
 func (q *Queries) UpdateArticle(ctx context.Context, arg UpdateArticleParams) error {

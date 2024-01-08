@@ -9,9 +9,9 @@ import (
 )
 
 type Article struct {
-	ID        int64         `json:"id"`
-	Title     string        `json:"title"`
-	Body      string        `json:"body"`
-	CreatedAt sql.NullInt64 `json:"created_at"`
-	UpdatedAt sql.NullInt64 `json:"updated_at"`
+	ID        int64
+	Title     string
+	Body      string
+	CreatedAt sql.NullTime
+	UpdatedAt sql.NullTime
 }

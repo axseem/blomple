@@ -1,5 +1,5 @@
 CREATE TABLE
-    articles (
+    article (
         id INTEGER PRIMARY KEY,
         title text NOT NULL,
         body text NOT NULL,
