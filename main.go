@@ -1,8 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
+
+	_ "modernc.org/sqlite"
 
 	"github.com/axseem/blomple/database"
 	"github.com/axseem/blomple/handler"
@@ -11,18 +14,11 @@ import (
 )
 
 func main() {
-	db, err := database.ConnectDB("./dev.db")
+	sqlite, err := sql.Open("sqlite", "./sqlite.db")
 	if err != nil {
 		log.Fatal("failed to connect to database: ", err)
 	}
-
-	// err = db.CreateArticle(context.Background(), database.CreateArticleParams{
-	// 	Title: "Hello World",
-	// 	Body:  "This is the first article",
-	// })
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	db := database.New(sqlite)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
