@@ -5,9 +5,11 @@ import (
 )
 
 templ Article(article database.Article){
-    <a href="/">back</a>
-    <h1>{article.Title}</h1>
-    <p>
-        {article.Body}
-    </p>
+    <html>    
+        <head>
+            <a href="/">back</a>
+        </head>
+        <h1>{article.Title}</h1>
+        <div class="content">{article.Content}</div>
+    </html>
 }

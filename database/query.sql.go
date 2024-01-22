@@ -11,19 +11,19 @@ import (
 
 const createArticle = `-- name: CreateArticle :exec
 INSERT INTO article (
-  title, body
+  title, content
 ) VALUES (
   ?, ?
 )
 `
 
 type CreateArticleParams struct {
-	Title string
-	Body  string
+	Title   string
+	Content string
 }
 
 func (q *Queries) CreateArticle(ctx context.Context, arg CreateArticleParams) error {
-	_, err := q.db.ExecContext(ctx, createArticle, arg.Title, arg.Body)
+	_, err := q.db.ExecContext(ctx, createArticle, arg.Title, arg.Content)
 	return err
 }
 
@@ -38,7 +38,7 @@ func (q *Queries) DeleteArticle(ctx context.Context, id int64) error {
 }
 
 const getArticle = `-- name: GetArticle :one
-SELECT id, title, body, created_at, updated_at FROM article
+SELECT id, title, content, created_at, updated_at FROM article
 WHERE id = ? LIMIT 1
 `
 
@@ -48,7 +48,7 @@ func (q *Queries) GetArticle(ctx context.Context, id int64) (Article, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Title,
-		&i.Body,
+		&i.Content,
 		&i.CreatedAt,
 		&i.UpdatedAt,
 	)
@@ -56,7 +56,7 @@ func (q *Queries) GetArticle(ctx context.Context, id int64) (Article, error) {
 }
 
 const listArticles = `-- name: ListArticles :many
-SELECT id, title, body, created_at, updated_at FROM article
+SELECT id, title, content, created_at, updated_at FROM article
 ORDER BY created_at DESC
 `
 
@@ -72,7 +72,7 @@ func (q *Queries) ListArticles(ctx context.Context) ([]Article, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
-			&i.Body,
+			&i.Content,
 			&i.CreatedAt,
 			&i.UpdatedAt,
 		); err != nil {
@@ -91,17 +91,17 @@ func (q *Queries) ListArticles(ctx context.Context) ([]Article, error) {
 
 const updateArticle = `-- name: UpdateArticle :exec
 UPDATE article
-set title = ?, body = ?
+set title = ?, content = ?
 WHERE id = ?
 `
 
 type UpdateArticleParams struct {
-	Title string
-	Body  string
-	ID    int64
+	Title   string
+	Content string
+	ID      int64
 }
 
 func (q *Queries) UpdateArticle(ctx context.Context, arg UpdateArticleParams) error {
-	_, err := q.db.ExecContext(ctx, updateArticle, arg.Title, arg.Body, arg.ID)
+	_, err := q.db.ExecContext(ctx, updateArticle, arg.Title, arg.Content, arg.ID)
 	return err
 }

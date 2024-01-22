@@ -11,7 +11,7 @@ import (
 type Article struct {
 	ID        int64
 	Title     string
-	Body      string
+	Content   string
 	CreatedAt sql.NullTime
 	UpdatedAt sql.NullTime
 }
