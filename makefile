@@ -9,5 +9,8 @@ migrate:
 		--dir "file://database/migrations" \
 		--url "sqlite://sqlite.db"
 
+gen: 
+	sqlc generate && templ generate
+
 seed:
 	go run ./cmd/seed/seed.go
