@@ -4,12 +4,12 @@ import (
     "github.com/axseem/blomple/database"
 )
 
-templ Article(article database.Article){
-    <html>    
-        <head>
-            <a href="/">back</a>
-        </head>
+templ Article(article database.Article, content templ.Component){
+    @layout() {   
+        <a href="/" hx-boost="true">back</a>
         <h1>{article.Title}</h1>
-        <div class="content">{article.Content}</div>
-    </html>
+        <div class="content">
+            @content
+        </div>
+    }
 }

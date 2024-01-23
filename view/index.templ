@@ -1,0 +1,18 @@
+package view
+
+import (
+    "github.com/axseem/blomple/database"
+    "fmt"
+)
+
+templ IndexPage(articles []database.Article){
+    @layout() {
+        <ul hx-boost="true">    
+            for _, a := range articles {
+                <a href={templ.URL("/article/" + fmt.Sprint(a.ID))}>
+                    <h1>{a.Title}</h1>
+                </a>
+            }
+        </ul>
+    }
+}
