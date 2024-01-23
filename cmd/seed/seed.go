@@ -19,8 +19,11 @@ func main() {
 
 	c := context.Background()
 	article := database.CreateArticleParams{
-		Title:   "Hello World",
-		Content: "This is the first article",
+		Title: "Hello World",
+		Content: `# A first-level heading
+## A second-level heading
+### A third-level heading
+`,
 	}
 
 	if err = db.CreateArticle(c, article); err != nil {
