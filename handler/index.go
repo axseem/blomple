@@ -16,7 +16,7 @@ func RootHandler(db *database.Queries) http.HandlerFunc {
 			return
 		}
 
-		page := view.Root(articles)
+		page := view.IndexPage(articles)
 		page.Render(r.Context(), w)
 	}
 }
