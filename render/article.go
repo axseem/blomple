@@ -10,6 +10,7 @@ import (
 	"github.com/axseem/blomple/database"
 	"github.com/axseem/blomple/view"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 )
 
 func Articles(rootPath string, db *database.Queries) error {
@@ -30,7 +31,18 @@ func Articles(rootPath string, db *database.Queries) error {
 
 	for _, article := range articles {
 		var html bytes.Buffer
-		if err := goldmark.Convert([]byte(article.Content), &html); err != nil {
+		md := goldmark.New(
+			goldmark.WithExtensions(
+				extension.NewTable(
+					extension.WithTableCellAlignMethod(
+						extension.TableCellAlignAttribute,
+					),
+				),
+				extension.GFM,
+			),
+		)
+
+		if err := md.Convert([]byte(article.Content), &html); err != nil {
 			return err
 		}
 
