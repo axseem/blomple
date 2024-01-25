@@ -9,7 +9,7 @@ templ IndexPage(articles []database.Article){
     @layout() {
         <ul hx-boost="true">    
             for _, a := range articles {
-                <a href={templ.URL("/article/" + fmt.Sprint(a.ID))}>
+                <a href={templ.URL("/" + fmt.Sprint(a.ID))}>
                     <h1>{a.Title}</h1>
                 </a>
             }

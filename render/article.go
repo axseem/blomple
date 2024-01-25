@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
 
 	"github.com/axseem/blomple/database"
 	"github.com/axseem/blomple/view"
@@ -19,14 +18,13 @@ func Articles(rootPath string, db *database.Queries) error {
 		return err
 	}
 
-	articlesPath := path.Join(rootPath, "article")
-	err = os.Mkdir(articlesPath, 0755)
+	err = os.Mkdir(rootPath, 0755)
 	if os.IsExist(err) {
-		info, err := os.Stat(articlesPath)
+		info, err := os.Stat(rootPath)
 		if err != nil {
 			log.Fatal("failed to stat path: ", err)
 		} else if !info.IsDir() {
-			log.Fatal("path is not a directory: ", articlesPath)
+			log.Fatal("path is not a directory: ", rootPath)
 		}
 	}
 
@@ -37,7 +35,7 @@ func Articles(rootPath string, db *database.Queries) error {
 		}
 
 		content := HTMLToComonent(html.String())
-		if err := render(articlesPath, fmt.Sprint(article.ID), view.Article(article, content)); err != nil {
+		if err := render(rootPath, fmt.Sprint(article.ID), view.Article(article, content)); err != nil {
 			return err
 		}
 	}

@@ -14,3 +14,9 @@ gen:
 
 seed:
 	go run ./cmd/seed/seed.go
+
+ssr:
+	go run ./cmd/serve/ssr/main.go
+
+ssg:
+	go run ./cmd/serve/ssg/main.go
