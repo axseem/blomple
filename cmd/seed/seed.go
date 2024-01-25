@@ -4,6 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"os"
+
+	_ "embed"
 
 	_ "modernc.org/sqlite"
 
@@ -17,16 +20,17 @@ func main() {
 	}
 	db := database.New(sqlite)
 
-	c := context.Background()
-	article := database.CreateArticleParams{
-		Title: "Hello World",
-		Content: `# A first-level heading
-## A second-level heading
-### A third-level heading
-`,
+	md, err := os.ReadFile("./cmd/seed/features.md")
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	if err = db.CreateArticle(c, article); err != nil {
+	article := database.CreateArticleParams{
+		Title:   "Markdown features showcase",
+		Content: string(md),
+	}
+
+	if err = db.CreateArticle(context.Background(), article); err != nil {
 		log.Fatal("failed to create article: ", err)
 	}
 }
