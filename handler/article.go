@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/axseem/blomple/database"
+	"github.com/axseem/blomple/generate"
 	"github.com/axseem/blomple/markdown"
-	"github.com/axseem/blomple/render"
 	"github.com/axseem/blomple/view"
 	"github.com/go-chi/chi/v5"
 )
@@ -35,7 +35,7 @@ func ArticleHandler(db *database.Queries) http.HandlerFunc {
 			return
 		}
 
-		content := render.HTMLToComonent(html)
+		content := generate.HTMLToComonent(html)
 		page := view.Article(article, content)
 		page.Render(r.Context(), w)
 	}

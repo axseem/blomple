@@ -10,7 +10,7 @@ import (
 	_ "modernc.org/sqlite"
 
 	"github.com/axseem/blomple/database"
-	"github.com/axseem/blomple/render"
+	"github.com/axseem/blomple/generate"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -47,10 +47,10 @@ func ServeSSG() {
 	}
 	db := database.New(sqlite)
 
-	if err := render.IndexPage(rootPath, db); err != nil {
+	if err := generate.IndexPage(rootPath, db); err != nil {
 		log.Fatal(err)
 	}
-	if err := render.Articles(rootPath, db); err != nil {
+	if err := generate.Articles(rootPath, db); err != nil {
 		log.Fatal(err)
 	}
 
