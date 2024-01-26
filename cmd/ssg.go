@@ -1,7 +1,8 @@
-package main
+package cmd
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -28,7 +29,7 @@ func (d HTMLDir) Open(name string) (http.File, error) {
 	return f, err
 }
 
-func main() {
+func ServeSSG() {
 	rootPath := "public"
 	err := os.Mkdir(rootPath, 0755)
 	if os.IsExist(err) {
@@ -60,5 +61,7 @@ func main() {
 	index := http.FileServer(HTMLDir{http.Dir(rootPath)})
 
 	r.Handle("/", index)
-	http.ListenAndServe(":1323", http.StripPrefix("/", index))
+
+	fmt.Println("server is running on :1323")
+	log.Fatal(http.ListenAndServe(":1323", http.StripPrefix("/", index)))
 }

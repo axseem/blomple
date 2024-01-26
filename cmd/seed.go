@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"context"
@@ -13,14 +13,14 @@ import (
 	"github.com/axseem/blomple/database"
 )
 
-func main() {
+func SeedDB() {
 	sqlite, err := sql.Open("sqlite", "./sqlite.db")
 	if err != nil {
 		log.Fatal("failed to connect to database: ", err)
 	}
 	db := database.New(sqlite)
 
-	md, err := os.ReadFile("./cmd/seed/features.md")
+	md, err := os.ReadFile("./cmd/features.md")
 	if err != nil {
 		log.Fatal(err)
 	}
