@@ -26,7 +26,7 @@ func ServeSSR() {
 	r.Use(middleware.Recoverer)
 
 	r.Get("/", handler.RootHandler(db))
-	r.Get("/article/{id}", handler.ArticleHandler(db))
+	r.Get("/{id}", handler.ArticleHandler(db))
 
 	fmt.Println("server is running on :1323")
 	log.Fatal(http.ListenAndServe(":1323", r))
