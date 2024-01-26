@@ -20,5 +20,10 @@ func ConvertToHTML(s string) (string, error) {
 		),
 	)
 
-	return html.String(), md.Convert([]byte(s), &html)
+	err := md.Convert([]byte(s), &html)
+	if err != nil {
+		return "", err
+	}
+
+	return html.String(), nil
 }
