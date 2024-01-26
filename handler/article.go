@@ -1,15 +1,14 @@
 package handler
 
 import (
-	"bytes"
 	"net/http"
 	"strconv"
 
 	"github.com/axseem/blomple/database"
+	"github.com/axseem/blomple/markdown"
 	"github.com/axseem/blomple/render"
 	"github.com/axseem/blomple/view"
 	"github.com/go-chi/chi/v5"
-	"github.com/yuin/goldmark"
 )
 
 func ArticleHandler(db *database.Queries) http.HandlerFunc {
@@ -29,14 +28,14 @@ func ArticleHandler(db *database.Queries) http.HandlerFunc {
 			return
 		}
 
-		var html bytes.Buffer
-		if err := goldmark.Convert([]byte(article.Content), &html); err != nil {
+		html, err := markdown.ConvertToHTML(article.Content)
+		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Failed to parse article content"))
 			return
 		}
 
-		content := render.HTMLToComonent(html.String())
+		content := render.HTMLToComonent(html)
 		page := view.Article(article, content)
 		page.Render(r.Context(), w)
 	}

@@ -1,16 +1,14 @@
 package render
 
 import (
-	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/axseem/blomple/database"
+	"github.com/axseem/blomple/markdown"
 	"github.com/axseem/blomple/view"
-	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/extension"
 )
 
 func Articles(rootPath string, db *database.Queries) error {
@@ -30,23 +28,13 @@ func Articles(rootPath string, db *database.Queries) error {
 	}
 
 	for _, article := range articles {
-		var html bytes.Buffer
-		md := goldmark.New(
-			goldmark.WithExtensions(
-				extension.NewTable(
-					extension.WithTableCellAlignMethod(
-						extension.TableCellAlignAttribute,
-					),
-				),
-				extension.GFM,
-			),
-		)
 
-		if err := md.Convert([]byte(article.Content), &html); err != nil {
+		html, err := markdown.ConvertToHTML(article.Content)
+		if err != nil {
 			return err
 		}
 
-		content := HTMLToComonent(html.String())
+		content := HTMLToComonent(html)
 		if err := render(rootPath, fmt.Sprint(article.ID), view.Article(article, content)); err != nil {
 			return err
 		}
